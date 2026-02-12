@@ -54,21 +54,14 @@ static u8 settings_basic_change(OPTIONS_STATE *state, OPTIONS_ELEMENT *element, 
 
 static const char * settings_expansion_text(void)
 {
-    return setting_print("RAM expansion (REU)",
-        settings_flags & CFG_FLAG_REU_DISABLED ? "no" : "yes");
+    settings_flags &= ~CFG_FLAG_REU_DISABLED;
+    return setting_print("RAM expansion (REU)", "yes");
 }
 
 static u8 settings_expansion_change(OPTIONS_STATE *state, OPTIONS_ELEMENT *element, u8 flags)
 {
-    if (settings_flags & CFG_FLAG_REU_DISABLED)
-    {
-        settings_flags &= ~CFG_FLAG_REU_DISABLED;
-    }
-    else
-    {
-        settings_flags |= CFG_FLAG_REU_DISABLED;
-    }
-
+    (void)state;
+    (void)flags;
     return settings_refresh(element, settings_expansion_text());
 }
 
