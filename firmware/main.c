@@ -43,25 +43,24 @@ int main(void)
     configure_system();
     log_print("\nSystem configured\n");
 
-    while (!mount_sd_card())
+    bool sd_card_mounted = mount_sd_card();
+    if (!sd_card_mounted)
     {
-        if (!c64_interface_active())
-        {
-            c64_launcher_enable();
-            c64_send_message("Please insert a FAT formatted SD card");
-        }
-        else
-        {
-            delay_ms(1000);
-        }
-    }
+        c64_launcher_enable();
+        c64_send_message("REU Activated. Jumping to BASIC");
+        delay_ms(5000);
 
-    if (!auto_boot())
+        cfg_file.boot_type = CFG_BASIC;
+    }
+    else if (!auto_boot())
     {
         c64_disable();
         c64_launcher_enable();
         menu_loop();
     }
+
+    // Keep REU active regardless of persisted settings.
+    cfg_file.flags &= ~CFG_FLAG_REU_DISABLED;
 
     if (cfg_file.boot_type == CFG_CRT || cfg_file.boot_type == CFG_DISK)
     {

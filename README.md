@@ -1,14 +1,12 @@
-# Kung Fu Flash 2
+# KFREU (based on Kung Fu Flash 2)
 
-Cartridge for the Commodore 64 that packs a punch.
+REU-focused cartridge firmware for the Commodore 64/128, based on [Kung Fu Flash 2](https://github.com/KimJorgensen/KungFuFlash2).
 
-Kung Fu Flash 2 is the big brother of [Kung Fu Flash](https://github.com/KimJorgensen/KungFuFlash). It has a faster microcontroller with more memory and I/O pins, allowing for additional functionality.
+This fork is focused on making the cartridge behave as a dedicated REU cartridge by default:
 
-**Currently, this project is considered experimental** and provides the same features as Kung Fu Flash, with these notable exceptions:
-
-* CRT files are loaded into RAM, not flash, making large CRT files startup faster. However, changes to EasyFlash cartridges are lost if power is turned off, unless saved via the menu first
-* The cartridge detects if the C64/C128 is reset. This allows the use of an additional reset button on the C64 or the built-in reset button on the C128
-* REU emulation has been added
+* REU support is enabled by default and kept active for user programs
+* Boot no longer depends on an inserted FAT-formatted microSD card
+* When no SD card is present, the launcher shows `REU Activated. Jumping to BASIC` and jumps to BASIC after 5 seconds
 
 ![Kung Fu Flash 2 Launcher](pics/launcher.jpg)
 
@@ -74,14 +72,14 @@ The following file types are currently supported:
 
 ## REU Emulation
 
-Kung Fu Flash 2 can emulate a 1 Mb REU (RAM Expansion Unit) simultaneously with disk drive emulation.
-The REU is enabled in the settings menu (F5) and active when:
+KFREU emulates a 1 Mb REU (RAM Expansion Unit) simultaneously with disk drive emulation.
+REU is always enabled in this fork and available when:
 
 * A program is executed using the default option (RETURN)
 * A disk image or directory is mounted using "Mount" in the file options menu (SHIFT+RETURN)
 * BASIC is started via F6 (C128) or F7 (C64) in the launcher
 
-The REU will not be active when emulating cartridges (CRT files)
+The REU is intended to remain active for normal user/program operation in this fork.
 
 ## USB Port
 
@@ -90,7 +88,7 @@ The USB port is active when:
 
 * The Kung Fu Flash 2 launcher is running
 * A program is started using "Load" in the file options menu (SHIFT+RETURN)
-* BASIC is started via F7 in the launcher **and** REU emulation is disabled in the settings menu (F5)
+* BASIC is started via F7 in the launcher (USB behavior may differ from upstream due to always-on REU)
 
 Kung Fu Flash 2 shows up as a standard serial port when connected to a PC not requiring any custom drivers to be installed.
 This means, however, that the EasyFlash 3 program on the PC side must be modified to support Kung Fu Flash.
@@ -121,7 +119,7 @@ Currently REL files are not supported and only a subset of the Commodore DOS com
 
 ## Thanks
 
-Kung Fu Flash 2 was based on or uses other open source projects:
+KFREU is based on Kung Fu Flash 2, which was based on or uses other open source projects:
 
 * [Kung Fu Flash](https://github.com/KimJorgensen/KungFuFlash)
 * [EasyFlash 3](https://bitbucket.org/skoe/easyflash) by Thomas Giesel
